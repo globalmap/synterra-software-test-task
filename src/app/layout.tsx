@@ -27,7 +27,11 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <DatabaseProvider>{children}</DatabaseProvider>
+        <DatabaseProvider>
+          <main className='app w-screen h-screen flex justify-center py-3 p-2 items-center bg-gray-700 '>
+            {children}
+          </main>
+        </DatabaseProvider>
       </body>
     </html>
   );
