@@ -1,36 +1,81 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Synterra Software Test Task
+
+## Overview
+
+This project is a note-taking application built with Next.js, Tailwind, Typescript and RxDB.
+
+## Features
+
+- Create, edit, and delete notes
+- Responsive design
+- Safe navigation and online status detection
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Node.js
+- npm or yarn
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/synterra-software-test-task.git
+   cd synterra-software-test-task
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
 
-## Learn More
+### Running the Application
 
-To learn more about Next.js, take a look at the following resources:
+1. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Open your browser and navigate to `http://localhost:3000`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Hooks
 
-## Deploy on Vercel
+- `useOnlineStatus`: A custom hook to check the online status of the application.
+- `useSafeNavigation`: A custom hook to handle safe navigation within the application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Project Structure
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `src/components`: Contains React components.
+- `src/databases`: Contains RxDB database setup and models.
+- `src/services`: Contains API client for interacting with the backend.
+- `src/stores`: Contains context providers and hooks for state management.
+
+### Components
+
+- `EditNote`: Component for editing an existing note.
+- `NewNote`: Component for creating a new note.
+- `NoteList`: Component for displaying the list of notes.
+- `NoteItem`: Component for displaying a single note item.
+- `OfflineBanner`: Component for displaying an offline status banner.
+
+### Services
+
+- `apiClient.ts`: Contains functions for interacting with the backend API (fetch, create, update, delete notes).
+
+### Database
+
+- `index.ts`: Initializes the RxDB database and sets up collections.
+- `models/notes.ts`: Defines the note schema and types.
+
+### Stores
+
+- `database.tsx`: Provides the database context and hooks for accessing the database.
+
+## License
+
+This project is licensed under the MIT License.
