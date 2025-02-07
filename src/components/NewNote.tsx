@@ -4,15 +4,15 @@ import { Note } from "@/databases/models/notes";
 import { createNote } from "@/services/apiClient";
 import { useDatabase } from "@/stores/database";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { RxDocument } from "rxdb";
 
 const NewNote = () => {
+  const router = useRouter();
   const database = useDatabase();
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-  const [noteDocument, setNoteDocument] = useState<RxDocument<Note>>();
 
   const handleSubmit = async () => {
     try {
@@ -21,9 +21,9 @@ const NewNote = () => {
         title,
       });
 
-      await database.notes
-        .insert({ ...newNote, id: newNote.id.toString() })
-        .then(() => console.log("ADD NEW NOTE"));
+      await database.notes.insert({ ...newNote, id: newNote.id.toString() });
+
+      router.push("/");
     } catch (error) {
       console.error("Failed to create note:", error);
     }

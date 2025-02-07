@@ -4,19 +4,18 @@ import { Note } from "@/databases/models/notes";
 import { deleteNote, updateNote } from "@/services/apiClient";
 import { useDatabase } from "@/stores/database";
 import Link from "next/link";
-import { redirect, useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { RxDocument } from "rxdb";
 
 const EditNote = () => {
-  const { id } = useParams();
-
-  if (typeof id !== "string") redirect("/");
+  const { id }: { id: string } = useParams();
 
   const database = useDatabase();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [noteDocument, setNoteDocument] = useState<RxDocument<Note>>();
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -41,6 +40,8 @@ const EditNote = () => {
       };
       await updateNote(updateData);
       await noteDocument.patch(updateData);
+
+      router.push("/");
     } catch (error) {
       console.error("Failed to update note:", error);
     }
@@ -50,6 +51,8 @@ const EditNote = () => {
     try {
       await deleteNote(id);
       await noteDocument?.remove();
+
+      router.push("/");
     } catch (error) {
       console.error("Failed to delete note:", error);
     }
