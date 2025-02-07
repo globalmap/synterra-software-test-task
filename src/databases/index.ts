@@ -15,7 +15,7 @@ export async function initDB(): Promise<RxDatabase> {
   });
 
   try {
-    const noteCollection = await database.addCollections({
+    await database.addCollections({
       notes: {
         schema: noteSchema,
       },

@@ -3,10 +3,11 @@ import { NoteDocumentType } from "@/databases/models/notes";
 import { useDatabase } from "@/stores/database";
 import { useEffect, useState } from "react";
 import NoteItem from "./NoteItem";
+import Link from "next/link";
 
 const NoteList = () => {
   const database = useDatabase();
-  
+
   const [notes, setNotes] = useState<NoteDocumentType[]>([]);
 
   useEffect(() => {
@@ -16,8 +17,6 @@ const NoteList = () => {
       .then((notes) => {
         setNotes(notes);
       });
-    
-      
   }, [database]);
 
   return (
@@ -33,8 +32,13 @@ const NoteList = () => {
           <NoteItem key={note.id} note={note} />
         ))}
       </div>
+      <Link
+        className='flex justify-center text-center align-middle lg:w-[120px] md:w-[220px] sm:w-[320px] w-full gap-2 lg:mt-3 md:mt-3 sm:mt-3 mt-4 bg-gradient-to-br from-[#43CBFF] to-[#9708CC] text-green-50 p-2 rounded-md'
+        href='new-note'>
+        Add New Note
+      </Link>
     </section>
   );
-}
+};
 
 export default NoteList;
