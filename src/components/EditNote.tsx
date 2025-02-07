@@ -1,6 +1,8 @@
 "use client";
 
 import { Note } from "@/databases/models/notes";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useSafeNavigation } from "@/hooks/useSafeNavigation";
 import { deleteNote, updateNote } from "@/services/apiClient";
 import { useDatabase } from "@/stores/database";
 import Link from "next/link";
@@ -12,10 +14,12 @@ const EditNote = () => {
   const { id }: { id: string } = useParams();
 
   const database = useDatabase();
+  const isOnline = useOnlineStatus();
+
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [noteDocument, setNoteDocument] = useState<RxDocument<Note>>();
-  const router = useRouter();
+  const { navigate } = useSafeNavigation();
 
   useEffect(() => {
     (async () => {
@@ -38,10 +42,10 @@ const EditNote = () => {
         body,
         title,
       };
-      await updateNote(updateData);
+      if (isOnline) await updateNote(updateData);
       await noteDocument.patch(updateData);
 
-      router.push("/");
+      navigate("/");
     } catch (error) {
       console.error("Failed to update note:", error);
     }
@@ -49,10 +53,10 @@ const EditNote = () => {
 
   const handleDelete = async () => {
     try {
-      await deleteNote(id);
+      if (isOnline) await deleteNote(id);
       await noteDocument?.remove();
 
-      router.push("/");
+      navigate("/");
     } catch (error) {
       console.error("Failed to delete note:", error);
     }
@@ -62,6 +66,7 @@ const EditNote = () => {
     <section className=' w-full lg:w-1/2 flex justify-center items-center gap-4 flex-col md:w-[80%] sm:w-[90%] p-6 bg-[#141313] rounded-md sm:w-[90%]'>
       <header className='create_note_header flex justify-between items-center w-full'>
         <Link
+          prefetch={true}
           href={"/"}
           className='rounded-md bg-transparent text-white p-3 font-extrabold text-lg border-[2px] border-[#ffffff31] border-solid'>
           Back

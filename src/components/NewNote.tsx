@@ -1,6 +1,8 @@
 "use client";
 
 import { Note } from "@/databases/models/notes";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
+import { useSafeNavigation } from "@/hooks/useSafeNavigation";
 import { createNote } from "@/services/apiClient";
 import { useDatabase } from "@/stores/database";
 import Link from "next/link";
@@ -10,20 +12,28 @@ import { useState, useEffect } from "react";
 const NewNote = () => {
   const router = useRouter();
   const database = useDatabase();
+  const isOnline = useOnlineStatus();
+  const { navigate } = useSafeNavigation();
 
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
 
   const handleSubmit = async () => {
     try {
-      const newNote = await createNote({
+      let newNote = {
         body,
         title,
-      });
-
+        id: Math.random() * 1000,
+      };
+      if (isOnline) {
+        newNote = await createNote({
+          body,
+          title,
+        });
+      }
       await database.notes.insert({ ...newNote, id: newNote.id.toString() });
 
-      router.push("/");
+      navigate("/");
     } catch (error) {
       console.error("Failed to create note:", error);
     }
@@ -33,6 +43,7 @@ const NewNote = () => {
     <section className='lg:w-1/2 flex justify-center items-center gap-4 flex-col md:w-[80%] p-6 bg-[#141313] rounded-md sm:w-[90%] w-full'>
       <header className='create_note_header flex justify-between items-center w-full '>
         <Link
+          prefetch={true}
           href={"/"}
           className='rounded-md bg-transparent text-white p-3 font-extrabold text-lg border-[2px] border-[#ffffff31] border-solid'>
           Back

@@ -33,6 +33,7 @@ const NoteList = () => {
         ))}
       </div>
       <Link
+        prefetch={true}
         className='flex justify-center text-center align-middle lg:w-[120px] md:w-[220px] sm:w-[320px] w-full gap-2 lg:mt-3 md:mt-3 sm:mt-3 mt-4 bg-gradient-to-br from-[#43CBFF] to-[#9708CC] text-green-50 p-2 rounded-md'
         href='new-note'>
         Add New Note

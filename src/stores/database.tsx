@@ -11,6 +11,7 @@ import { Database, initDB } from "@/databases";
 import { RxDatabase } from "rxdb";
 import { fetchNotes } from "@/services/apiClient";
 import { Note } from "@/databases/models/notes";
+import { useOnlineStatus } from "@/hooks/useOnlineStatus";
 
 interface DatabaseContextData {
   database: Database;
@@ -20,6 +21,8 @@ const DatabaseContext = createContext({} as DatabaseContextData);
 
 export function DatabaseProvider({ children }: PropsWithChildren) {
   const [database, setDatabase] = useState<any>();
+  const isOnline = useOnlineStatus();
+
   useEffect(() => {
     (async () => {
       if (!database) {
@@ -28,7 +31,8 @@ export function DatabaseProvider({ children }: PropsWithChildren) {
 
         if (
           typeof window !== "undefined" &&
-          (await database.notes.find().exec()).length === 0
+          (await database.notes.find().exec()).length === 0 &&
+          isOnline
         ) {
           const notes = await fetchNotes();
 

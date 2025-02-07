@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { DatabaseProvider } from "@/stores/database";
+import OfflineBanner from "@/components/OfflineBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,6 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <DatabaseProvider>
           <main className='app w-screen h-screen flex justify-center py-3 p-2 items-center bg-gray-700 '>
+            <OfflineBanner />
             {children}
           </main>
         </DatabaseProvider>
