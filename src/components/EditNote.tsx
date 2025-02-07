@@ -1,7 +1,7 @@
 "use client";
 
 import { Note } from "@/databases/models/notes";
-import { updateNote } from "@/services/apiClient";
+import { deleteNote, updateNote } from "@/services/apiClient";
 import { useDatabase } from "@/stores/database";
 import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
@@ -39,12 +39,20 @@ const EditNote = () => {
         body,
         title,
       };
-      await updateNote(updateData)
-      await noteDocument.patch(updateData)
+      await updateNote(updateData);
+      await noteDocument.patch(updateData);
     } catch (error) {
       console.error("Failed to update note:", error);
     }
-    
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteNote(id);
+      await noteDocument?.remove();
+    } catch (error) {
+      console.error("Failed to delete note:", error);
+    }
   };
 
   return (
@@ -62,7 +70,7 @@ const EditNote = () => {
             Save
           </button>
           <button
-            // onClick={handleDelete}
+            onClick={handleDelete}
             className='rounded-md bg-gradient-to-br from-[#43CBFF] to-[#9708CC] text-white p-3'>
             delete
           </button>

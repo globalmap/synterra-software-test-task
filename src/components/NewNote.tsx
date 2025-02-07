@@ -24,7 +24,9 @@ const NewNote = () => {
       await database.notes
         .insert({ ...newNote, id: newNote.id.toString() })
         .then(() => console.log("ADD NEW NOTE"));
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to create note:", error);
+    }
   };
 
   return (
