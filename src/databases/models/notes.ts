@@ -1,22 +1,28 @@
 import { ExtractDocumentTypeFromTypedRxJsonSchema, RxCollection, RxJsonSchema, toTypedRxJsonSchema } from "rxdb";
 
+export interface Note {
+  id: string;
+  title: string;
+  body: string;
+}
+
 export const noteSchemaLiteral = {
   version: 0,
-  primaryKey: 'id',
+  primaryKey: "id",
   type: "object",
   properties: {
     id: {
       type: "string",
-      maxLenght: 24
+      maxLength: 24,
     },
     title: {
-      type: "string"
+      type: "string",
     },
     body: {
-      type: "string"
-    }
+      type: "string",
+    },
   },
-  required: ["id", "title", "body"]
+  required: ["id", "title", "body"],
 } as const;
 
 const schemaTyped = toTypedRxJsonSchema(noteSchemaLiteral);
